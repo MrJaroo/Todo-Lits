@@ -1,21 +1,22 @@
 import React, {ChangeEvent} from 'react';
 
 type TaskPropsType = {
+    TodoListId: string
     id: string,
     title: string,
     isDone: boolean
-    removeTasks: (taskID: string) => void;
-    changeTasksStatus:(taskID:string,isDone:boolean) => void
+    removeTasks: (TodoListId: string, taskID: string) => void;
+    changeTasksStatus: (todoListId: string, taskID: string, isDone: boolean) => void
 }
 
 
 const Task = (props: TaskPropsType) => {
 
     const onClickRemoveTask = () => {
-        return props.removeTasks(props.id)
+        return props.removeTasks(props.TodoListId, props.id)
     }
-    const onChangeStatus = (e:ChangeEvent<HTMLInputElement>) => {
-        return props.changeTasksStatus(props.id,e.currentTarget.checked)
+    const onChangeStatus = (e: ChangeEvent<HTMLInputElement>) => {
+        return props.changeTasksStatus(props.TodoListId,props.id, e.currentTarget.checked)
     }
 
     return (

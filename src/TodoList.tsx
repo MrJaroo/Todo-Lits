@@ -4,14 +4,15 @@ import TodoListButton from "./TodoListButton";
 import {FilterValuesType, TaskType} from "./App";
 import Task from "./Task";
 
-type TodoListPropsType = {
+export type TodoListPropsType = {
     title: string,
+    TodoListId: string
     tasks: Array<TaskType>
     filter: FilterValuesType
-    removeTasks: (taskID: string) => void;
-    changeFilter: (filter: FilterValuesType) => void
-    addTask: (title: string) => void;
-    changeTasksStatus: (taskID: string, isDone: boolean) => void
+    removeTasks: (TodoListId:string,taskID: string) => void;
+    changeFilter: (todoListId: string, filter: FilterValuesType) => void
+    addTask: (todoListId:string,title: string) => void;
+    changeTasksStatus: (todoListId:string,taskID: string, isDone: boolean) => void
 }
 
 const TodoList = (props: TodoListPropsType) => {
@@ -24,11 +25,12 @@ const TodoList = (props: TodoListPropsType) => {
                                                       isDone={t.isDone}
                                                       removeTasks={props.removeTasks}
                                                       changeTasksStatus={props.changeTasksStatus}
+                                                      TodoListId={props.TodoListId}
     />)
     const onClickAddTask = () => {
         const trimmedTitle = title.trim()
         if (trimmedTitle) {
-            props.addTask(trimmedTitle)
+            props.addTask(props.TodoListId,trimmedTitle)
         } else {
             setError(true)
         }
@@ -39,9 +41,9 @@ const TodoList = (props: TodoListPropsType) => {
         e.key === "Enter" && onClickAddTask()
     }
 
-    const setAllFilter = () => props.changeFilter('all');
-    const setActiveFilter = () => props.changeFilter('active')
-    const setCompletedFilter = () => props.changeFilter('completed')
+    const setAllFilter = () => props.changeFilter(props.TodoListId, 'all');
+    const setActiveFilter = () => props.changeFilter(props.TodoListId, 'active')
+    const setCompletedFilter = () => props.changeFilter(props.TodoListId, 'completed')
     const onChangeSetTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
         setError(false)
